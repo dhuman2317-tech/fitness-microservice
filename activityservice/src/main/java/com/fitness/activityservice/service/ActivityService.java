@@ -11,11 +11,28 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ActivityService {
     private final ActivityRepository activityRepository;
+    private final UserValidationService userValidationService;
+    private final RabbitTemplate rabbitTemplate;
+
+    @Value("${rabbitmq.exchange.name}")
+    private String exchange;
+
+    @Value("${rabbitmq.routing.key}")
+    private String routingKey;
 
     public ActivityResponse trackActivity(ActivityRequest request){
+
+
+        boolean isValidUser = userValidationService.validateUser(request.getUserId());
+
+        if(!isValidUser){
+            throw new RuntimeException("Invalid User: " + request.getUserId());
+        }
+
         Activity activity = Activity.builder()
                 .userId(request.getUserId())
                 .type(request.getType())
@@ -26,6 +43,14 @@ public class ActivityService {
                 .build();
 
         Activity savedActivity  = activityRepository.save(activity);
+
+        try{
+            rabbitTemplate.converAndSend(exchange, routingKey, savedActivity );
+        } catch(Exception e){
+            log.error("Failed to publish activity to RabbitMQ: ", e)
+        }
+
+        // pulbish to RabbitMq for AI Processing
         return mapToResponse(savedActivity);
     }
 
