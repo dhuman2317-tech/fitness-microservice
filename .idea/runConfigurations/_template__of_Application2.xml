@@ -1,0 +1,17 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="true" type="Application" factoryName="Application">
+    <envs>
+      <env name="GEMINI_API_URL" value=" https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=dummy-key " />
+      <env name="GEMINI_API_KEY" value="AIzaSyD_KjnsWrc6dsGB8mf9I-_NdRPWE-2OTbg " />
+    </envs>
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/aiservice" />
+    <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
+      <option name="credential" />
+      <option name="region" />
+      <option name="useCurrentConnection" value="false" />
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

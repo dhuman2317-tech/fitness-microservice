@@ -1,13 +1,12 @@
 package com.fitness.activityservice.config;
 
-import ch.qos.logback.classic.pattern.MessageConverter;
-import org.springframework.amqp.core.*;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-
+import org.springframework.amqp.core.Binding; // Correct Import
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.Queue;   // Correct Import
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 
 @Configuration
 public class RabbitMqConfig {
@@ -23,7 +22,8 @@ public class RabbitMqConfig {
 
     @Bean
     public Queue activityQueue() {
-        return new Queue(queue, true); // durable = true, non-auto-delete
+        // Now this works because it refers to the Spring AMQP Queue class
+        return new Queue(queue, true);
     }
 
     @Bean
@@ -31,15 +31,8 @@ public class RabbitMqConfig {
         return new DirectExchange(exchange);
     }
 
-
-
     @Bean
     public Binding activityBinding(Queue activityQueue, DirectExchange activityExchange) {
         return BindingBuilder.bind(activityQueue).to(activityExchange).with(routingKey);
-    }
-
-    @Bean
-    public MessageConverter jsonMessageConverter() {
-        return new Jackson2JsonMessageConverter();
     }
 }
