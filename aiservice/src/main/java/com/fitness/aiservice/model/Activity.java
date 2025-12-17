@@ -12,6 +12,7 @@ import java.util.Map;
 public class Activity {
     private String Id;
     private String UserId;
+    private String type;
     private Integer duration;
     private Integer caloriesBurned;
     private LocalDateTime startTime;

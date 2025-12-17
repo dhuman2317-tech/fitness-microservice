@@ -30,7 +30,12 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka/
 
+#gemini:
+#  api:
+#    url: ${GEMINI_API_URL}
+#    key: ${GEMINI_API_KEY}
+
 gemini:
   api:
-    url: ${GEMINI_API_URL}
-    key: ${GEMINI_API_KEY}
+    url: https://generativelanguage.googleapis.com/v1beta/models
+    key: AIzaSyAIzaSyD_KjnsWrc6dsGB8mf9I-_NdRPWE-2OTbg

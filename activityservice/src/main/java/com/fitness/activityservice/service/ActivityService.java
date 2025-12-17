@@ -1,21 +1,44 @@
-package com.fitness.activityservice.service;
-
 import com.fitness.activityservice.dto.ActivityRequest;
 import com.fitness.activityservice.dto.ActivityResponse;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import com.fitness.activityservice.model.Activity;
+import org.springframework.beans.factory.annotation.Value;
 
-@Service  // ← ADD THIS LINE
-@Slf4j
-@RequiredArgsConstructor
+@Value("${rabbitmq.exchange.name}")
+private String exchange;
 
-public class ActivityService {
-    public ActivityResponse trackActivity(ActivityRequest request) {
-        return null;
+@Value("${rabbitmq.exchange.key}")
+private String routingKey;
+
+public ActivityResponse trackActivity(ActivityRequest activityRequest) {
+
+    boolean isValidUser = userValidationService.validateUser(activityRequest.getUserId()
+    if(!isValidUser){
+        throw new RuntimeException("Invalid User: " + request.getUserId() )
+    }
+    Activity activity = Activity.builder()
+            .userId(request.getUserId())
+            .type(request.getType())
+            .duration(request.getDuration)
+            .caloriesBurned(request.getCaloriesBurned())
+            .startTime(request.getStartTime())
+            .additionalMetrics(request.getAdditionalMetrics())
+            .build();
+
+    Activity savedActivity = activityRepository.save(activity);
+
+    try{
+        rabbitTemplate.convertAndSend(exchange, routingKey, savedActivity);
+    }
+    catch (Exception e){
+        log.error("Failed to publish activivty to RabbitMq: ", e);
     }
 
-    public ActivityResponse getActivityById(String activityId) {
-        return null;
+    private ActivityResponse mapToResponse (Activity activity){
+        ActivityResponse response = new ActivityResponse();
+        response.setId(activity.getId());
+        response.setUserId(activity.getUserId());
+        response.setType(activity.getType());
+
+
     }
 }
