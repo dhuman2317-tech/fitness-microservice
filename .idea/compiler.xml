@@ -8,11 +8,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="aiservice" />
-        <module name="configserver (1)" />
         <module name="configserver (2)" />
         <module name="activityservice" />
-        <module name="aiservice (1)" />
         <module name="eureka" />
+        <module name="gateway" />
       </profile>
       <profile name="Annotation profile for userservice" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -26,6 +25,8 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="aiservice (1)" target="21" />
+      <module name="configserver (1)" target="21" />
       <module name="demo" target="21" />
     </bytecodeTargetLevel>
   </component>
@@ -38,6 +39,7 @@
       <module name="configserver (2)" options="-parameters" />
       <module name="demo" options="-parameters" />
       <module name="eureka" options="-parameters" />
+      <module name="gateway" options="-parameters" />
       <module name="userservice" options="-parameters" />
     </option>
   </component>

@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: api-gateway   # Gateway's own name (for Eureka later?)
+  config:
+    import: optional:configserver:http://localhost:8888
+
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: http://localhost:8080   # Temporary direct URI (change to lb://USER-SERVICE when Eureka is ready!)
+          predicates:
+            - Path=/api/users/**,/api/auth/**   # All user-related calls go here~
+          filters:
+            - StripPrefix=1   # Removes "/api" so userservice gets clean /users/**
+
+        - id: activity-service
+          uri: http://localhost:8082   # Temporary direct (later lb://ACTIVITY-SERVICE)
+          predicates:
+            - Path=/api/activities/**,/api/track/**
+          filters:
+            - StripPrefix=1   # Removes "/api" ? activityservice gets /activities/**
+
+        - id: ai-service   # Riimu assumes you have an AI service coming soon~?
+          uri: http://localhost:????   # Put the real port here when ready!
+          predicates:
+            - Path=/api/ai/**,/api/recommendations/**
+          filters:
+            - StripPrefix=1
+
+server:
+  port: 8081   # Gateway on 8081 so it doesn't fight with other services~!! Riimu recommends this!
+
+eureka:
+  client:
+    service-url:   # Note: service-url (with hyphen!), not serviceUrl
+      defaultZone: http://localhost:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true   # Gateway should register itself too~
