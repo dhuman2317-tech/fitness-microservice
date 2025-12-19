@@ -2,6 +2,10 @@ spring:
   application:
     name: activity-service   # Important for Config Server later
 
+
+    server:
+      port: 8083
+
   rabbitmq:
     host: localhost
     port: 5672

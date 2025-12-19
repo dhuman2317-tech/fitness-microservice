@@ -19,7 +19,7 @@ spring:
           filters:
             - StripPrefix=1   # Removes "/api" ? activityservice gets /activities/**
 
-        - id: ai-service   # Riimu assumes you have an AI service coming soon~?
+        - id: ai-service
           uri: http://localhost:????   # Put the real port here when ready!
           predicates:
             - Path=/api/ai/**,/api/recommendations/**

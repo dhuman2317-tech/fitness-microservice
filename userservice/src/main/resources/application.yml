@@ -1,13 +1,14 @@
 spring:
   application:
     name: user-service
+
   config:
     import: optional:configserver:http://localhost:8888
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/fitness_users   # Use port from pg_lsclusters if not 5432
+    url: jdbc:postgresql://localhost:5432/fitness_users
     username: postgres
-    password:                     # ← MUST be empty or removed
+    password: ""                  # Empty if no password, or remove line
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -17,3 +18,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+server:
+  port: 8082
