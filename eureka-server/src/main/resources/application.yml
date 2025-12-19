@@ -12,7 +12,7 @@ eureka:
     register-with-eureka: false
     fetch-registry: false
     service-url:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/   # ← THIS LINE WAS MISSING /eureka/
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
   server:
-    enable-self-preservation: false
+    enable-self-preservation: false   # Good for dev: avoids warnings when few instances
     wait-time-in-ms-when-sync-empty: 0

@@ -1,11 +1,14 @@
+server:
+  port: 8084
 
 spring:
   application:
     name: ai-service
-  config:
-    import: optional:configserver:http://localhost:8888
 
-
-    server:
-      port: 8084
-
+  rabbitmq:
+    queue:
+      name: activity-queue
+    exchange:
+      name: fitness-exchange
+    routing:
+      key: activity.created
