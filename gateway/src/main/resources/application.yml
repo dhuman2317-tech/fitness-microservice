@@ -1,6 +1,11 @@
 spring:
   application:
     name: api-gateway   # Gateway's own name (for Eureka later?)
+    data:
+      mongodb:
+        url: mongodb://localhost:27017/fitnessactivity
+      DATABASE: fitnessactivity
+    
 
   cloud:
     gateway:
